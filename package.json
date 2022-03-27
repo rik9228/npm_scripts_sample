@@ -1,0 +1,55 @@
+{
+  "name": "npm_scripts_sample",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "config": {
+    "url": "https://test.local"
+  },
+  "scripts": {
+    "pug": "pug -P --out dist --basedir src --pretty src/*.pug",
+    "scss": "sass src/assets/scss/style.scss dist/css/style.css",
+    "cleancss": "cleancss -o dist/css/style.css dist/css/style.css",
+    "postcss": "postcss --use autoprefixer -o dist/css/style.css dist/css/style.css",
+    "squoosh:jpg": "squoosh-cli --mozjpeg '{quality:70}' src/assets/img/*.jpg -d dist/img",
+    "squoosh:png": "squoosh-cli --oxipng '{quality:70}' src/assets/img/*.png -d dist/img",
+    "squoosh:webp": "squoosh-cli --webp '{quality:70}' | src/assets/img/** -d dist/img",
+    "squoosh": "yarn squoosh:jpg && yarn squoosh:png && yarn squoosh:webp",
+    "build:css": "yarn scss && yarn cleancss && yarn postcss",
+    "build:js": "uglifyjs --compress drop_console=true --mangle -o dist/js/scripts.min.js src/assets/js/*.js",
+    "build:img": "yarn squoosh",
+    "build": "yarn build:css && yarn build:js && yarn pug",
+    "watch:html": "onchange 'src/**/*.pug' -- yarn run pug",
+    "watch:css": "onchange 'src/assets/scss/*.scss' -- yarn run build:css",
+    "watch:js": "onchange 'src/assets/js/*.js' -- yarn run build:js",
+    "watch:img": "onchange 'src/assets/img/*' -- yarn run build:img",
+    "watch:server": "browser-sync start --server dist --https true --files dist",
+    "watch:proxy": "browser-sync start --proxy $npm_package_config_url --https true --files dist",
+    "start:b": "npm-run-all -p watch:{html,css,js,img,server}",
+    "start:p": "npm-run-all -p watch:{html,css,js,img,proxy}"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 1% in JP"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@squoosh/cli": "^0.7.2",
+    "autoprefixer": "^10.4.4",
+    "clean-css-cli": "^5.5.2",
+    "concat": "^1.0.3",
+    "npm": "^8.5.5",
+    "npm-run-all": "^4.1.5",
+    "onchange": "^7.1.0",
+    "postcss": "^8.4.12",
+    "postcss-cli": "^9.1.0",
+    "pug": "^3.0.2",
+    "pug-cli": "^1.0.0-alpha6",
+    "rimraf": "^3.0.2",
+    "sass": "^1.49.9",
+    "uglify-js": "^3.15.3"
+  },
+  "volta": {
+    "node": "14.19.1"
+  }
+}
