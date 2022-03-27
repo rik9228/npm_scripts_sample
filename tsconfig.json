@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2020"
+  },
+  "compileOnSave": true,
+  "include": ["src/assets/ts/*.ts", "src/assets/js/vendor.js"]
+}
